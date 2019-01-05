@@ -1,7 +1,9 @@
 build
 docs
 node_modules
+lib
 *.log
 .environment
 lib
 .env
+.zapierapprc
