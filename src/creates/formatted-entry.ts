@@ -9,8 +9,8 @@ import { TimeEntryDateRange } from "../models/time-entry-date-range";
     Fetch time entries
     Given today's date, filter entries that are before this date
     Find earliest and latest date
-    Format entries with HTML
     Calculate total hours
+    Format entries with HTML
 */
 const formatTimeEntries = async (z: ZObject, bundle: Bundle) => {
     const timeEntries: TimeEntries = await Utilities.FetchTimeEntryData(bundle, z);
