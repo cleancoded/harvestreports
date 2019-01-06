@@ -151,5 +151,41 @@ describe('Utilities', () => {
 
             should(totalHours).eql(expectedTotalHours);
         });
+
+        it('should return 1 hours given single entry of 1 hours', () => {
+            const expectedTotalHours: number = 1.0;
+            const entries: Entry[] = [
+                {
+                    date: new Date(),
+                    hours: 1.0
+                }
+            ];
+
+            const totalHours = Utilities.GetTotalHours(entries);
+
+            should(totalHours).eql(expectedTotalHours);
+        });
+
+        it('should return expected hours given multiple entries', () => {
+            const expectedTotalHours: number = 6.5;
+            const entries: Entry[] = [
+                {
+                    date: new Date(),
+                    hours: 1.5
+                },
+                {
+                    date: new Date(),
+                    hours: 2.0
+                },
+                {
+                    date: new Date(),
+                    hours: 3.0
+                }
+            ];
+
+            const totalHours = Utilities.GetTotalHours(entries);
+
+            should(totalHours).eql(expectedTotalHours);
+        });
     });
 });

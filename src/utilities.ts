@@ -73,7 +73,15 @@ const getEntryDateRange = (entries: Entry[]): TimeEntryDateRange => {
 };
 
 const getTotalHours = (entries: Entry[]): number => {
-    return 0.0;
+    let totalHours: number = 0.0;
+
+    entries.forEach((entry: Entry) => {
+        if (entry.hours) {
+            totalHours += entry.hours;
+        }
+    });
+
+    return totalHours;
 };
 
 const Utilities = {
