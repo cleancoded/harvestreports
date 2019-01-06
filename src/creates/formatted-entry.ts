@@ -1,7 +1,9 @@
 import { ZObject, Bundle } from "zapier-platform-core";
-import { TimeEntries } from "../models/time-entries";
+
 import Utilities from "../utilities";
+import { TimeEntries } from "../models/time-entries";
 import { Entry } from "../models/entry";
+import { TimeEntryDateRange } from "../models/time-entry-date-range";
 
 /*
     Fetch time entries
@@ -13,6 +15,8 @@ import { Entry } from "../models/entry";
 const formatTimeEntries = async (z: ZObject, bundle: Bundle) => {
     const timeEntries: TimeEntries = await Utilities.FetchTimeEntryData(bundle, z);
     const filteredEntries: Entry[] = Utilities.FilterTodaysEntries(timeEntries, bundle.inputData.current_date);
+    const reportDateRange: TimeEntryDateRange = Utilities.GetEntryDateRange(filteredEntries);
+    const totalHours: number = Utilities.GetTotalHours(filteredEntries);
 
     return {};
 };

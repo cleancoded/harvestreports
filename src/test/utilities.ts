@@ -1,9 +1,10 @@
 import * as should from 'should';
-
-import { TimeEntries } from "../models/time-entries";
-import Utilities from "../utilities";
 import { fail } from 'assert';
+
+import Utilities from "../utilities";
+import { TimeEntries } from "../models/time-entries";
 import { Entry } from '../models/entry';
+import { TimeEntryDateRange } from '../models/time-entry-date-range';
 
 describe('Utilities', () => {
     describe('fetchTimeEntryData', () => {
@@ -97,6 +98,58 @@ describe('Utilities', () => {
             const filteredEntries: Entry[] = Utilities.FilterTodaysEntries(timeEntries, currentDate);
 
             should(filteredEntries.length).be.eql(0);
+        });
+    });
+
+    describe('getEntryDateRange', () => {
+        it('should return TimeEntryDateRange with expected dates', () => {
+            const expectedEarliestDate = new Date('2019-01-02');
+            const expectedLatestDate = new Date('2019-01-10');
+            const entries: Entry[] = [
+                {
+                    date: expectedEarliestDate
+                },
+                {
+                    date: expectedLatestDate
+                }
+            ];
+
+            const entryDateRange: TimeEntryDateRange = Utilities.GetEntryDateRange(entries);
+
+            should(entryDateRange.earliestDate).eql(expectedEarliestDate);
+            should(entryDateRange.latestDate).eql(expectedLatestDate);
+        });
+
+        it('should return TimeEntryDateRange with expected dates', () => {
+            const expectedEarliestDate = new Date('2019-01-02');
+            const expectedLatestDate = new Date('2019-01-10');
+            const entries: Entry[] = [
+                {
+                    date: expectedEarliestDate
+                },
+                {
+                    date: new Date('2019-01-05')
+                },
+                {
+                    date: expectedLatestDate
+                }
+            ];
+
+            const entryDateRange: TimeEntryDateRange = Utilities.GetEntryDateRange(entries);
+
+            should(entryDateRange.earliestDate).eql(expectedEarliestDate);
+            should(entryDateRange.latestDate).eql(expectedLatestDate);
+        });
+    });
+
+    describe('getTotalHours', () => {
+        it('should return zero given empty entries array', () => {
+            const expectedTotalHours: number = 0.0;
+            const entries: Entry[] = [];
+
+            const totalHours = Utilities.GetTotalHours(entries);
+
+            should(totalHours).eql(expectedTotalHours);
         });
     });
 });
