@@ -19,6 +19,9 @@
     "npm": ">=5.6.0"
   },
   "dependencies": {
+    "@types/node-fetch": "^2.1.4",
+    "moment": "^2.23.0",
+    "node-fetch": "^2.3.0",
     "zapier-platform-core": "7.6.0"
   },
   "devDependencies": {

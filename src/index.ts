@@ -1,5 +1,6 @@
 const { version } = require("../package.json");
 import { version as platformVersion } from "zapier-platform-core";
+import FormattedEntry from "./creates/formatted-entry";
 
 process.version;
 
@@ -19,7 +20,9 @@ const App = {
 
   searches: {},
 
-  creates: {}
+  creates: {
+    [FormattedEntry.key]: FormattedEntry
+  }
 };
 
 export default App;
