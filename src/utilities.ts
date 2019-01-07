@@ -9,9 +9,12 @@ import { TimeEntryDateRange } from "./models/time-entry-date-range";
 import { ReportData } from "./models/report-data";
 import { ReportDay } from "./models/report-day";
 
-const buildTimeEntryReport = (entries: Entry[], dateRange: TimeEntryDateRange, totalHours: number) => {
-
-    return {};
+const buildTimeEntryReport = (entries: Entry[], dateRange: TimeEntryDateRange, totalHours: number): ReportData => {
+    return {
+        dateRange: dateRange,
+        totalHours: totalHours,
+        reportDays: groupTimeEntries(entries)
+    };
 };
 
 const groupTimeEntries = (entries: Entry[]): ReportDay[] => {

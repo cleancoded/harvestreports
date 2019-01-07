@@ -2,12 +2,15 @@ import * as moment from 'moment';
 
 import { Entry } from "./models/entry";
 import { TimeEntryDateRange } from "./models/time-entry-date-range";
+import { ReportData } from './models/report-data';
+import { ReportDay } from './models/report-day';
 
 const padding = 8;
 const reportStyles = {
     tableStyles: `border-collapse: collapse; border: none; padding: ${padding}px`,
     cellStyles: `border: none; padding: ${padding}px;`,
-    rowStyles: `background-color: #f2f2f2; border-bottom: 1px dashed;`
+    notesRowStyles: `background-color: #f2f2f2; border-bottom: 1px dashed;`,
+    dateRowStyles: `background-color: #f2f2f2;`
 };
 
 /*
@@ -18,12 +21,12 @@ const reportStyles = {
         table foot
     Build footer
 */
-const buildReport = (entries: Entry[], dateRange: TimeEntryDateRange, totalHours: number): string => {
+const buildReport = (reportData: ReportData): string => {
     let reportHtml = '';
 
-    reportHtml += buildHeader(dateRange);
-    reportHtml += buildTable(entries);
-    reportHtml += buildFooter(totalHours);
+    reportHtml += buildHeader(reportData.dateRange);
+    reportHtml += buildTable(reportData.reportDays);
+    reportHtml += buildFooter(reportData.totalHours);
 
     return reportHtml;
 };
@@ -35,9 +38,9 @@ const buildHeader = (dateRange: TimeEntryDateRange): string => {
     return `Timesheet: <b>${formattedEarliestDate} - ${formattedLatestDate}</b>\n`;
 };
 
-const buildTable = (entries: Entry[]): string => {
+const buildTable = (reportDays: ReportDay[]): string => {
     const header = buildTableHeader();
-    const body = buildTableBody(entries);
+    const body = buildTableBody(reportDays);
     const footer = buildTableFooter();
 
     return header + body + footer;
@@ -54,12 +57,29 @@ const buildTableHeader = (): string => {
     </thead>\n`;
 };
 
-const buildTableBody = (entries: Entry[]): string => {
-    const entryRows = buildEntryRows(entries);
+const buildTableBody = (reportDays: ReportDay[]): string => {
+    const entryDays = buildEntryDays(reportDays);
 
     return `<tbody>
-        ${entryRows}
+        ${entryDays}
     </tbody>\n`;
+};
+
+const buildEntryDays = (reportDays: ReportDay[]): string => {
+    let daysHtml = '';
+
+    for (let reportDay of reportDays) {
+        const formattedDate = moment(reportDay.date).format('MMMM Do YYYY');
+        const entryRows = buildEntryRows(reportDay.entries);
+        let dayHtml = `<tr>
+            <td colspan="3" style="${reportStyles.dateRowStyles}" >${formattedDate}</td>
+        </tr>
+        ${entryRows}`;
+
+        daysHtml += dayHtml;
+    }
+
+    return daysHtml;
 };
 
 const buildEntryRows = (entries: Entry[]): string => {
@@ -71,7 +91,7 @@ const buildEntryRows = (entries: Entry[]): string => {
             <td>${entry.task}</td>
             <td style="text-align: center" >${entry.hours}</td>
         </tr>
-        <tr style="${reportStyles.rowStyles}" >
+        <tr style="${reportStyles.notesRowStyles}" >
             <td colspan="3">${entry.notes}</td>
         </tr>\n`;
 

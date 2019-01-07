@@ -4,6 +4,8 @@ import Utilities from "../utilities";
 import { TimeEntries } from "../models/time-entries";
 import { Entry } from "../models/entry";
 import { TimeEntryDateRange } from "../models/time-entry-date-range";
+import { ReportData } from "../models/report-data";
+import TimeEntryReport from "../time-entry-report";
 
 /*
     Fetch time entries
@@ -17,8 +19,10 @@ const formatTimeEntries = async (z: ZObject, bundle: Bundle) => {
     const filteredEntries: Entry[] = Utilities.FilterTodaysEntries(timeEntries, bundle.inputData.current_date);
     const reportDateRange: TimeEntryDateRange = Utilities.GetEntryDateRange(filteredEntries);
     const totalHours: number = Utilities.GetTotalHours(filteredEntries);
+    const report: ReportData = Utilities.BuildTimeEntryReport(filteredEntries, reportDateRange, totalHours);
+    const reportHtml: string = TimeEntryReport.BuildReport(report);
 
-    return {};
+    return { reportHtml: reportHtml };
 };
 
 const FormattedEntry = {

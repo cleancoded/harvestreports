@@ -8,8 +8,6 @@ const App = {
   version,
   platformVersion,
 
-  authentication: {},
-
   beforeRequest: [],
 
   afterResponse: [],
