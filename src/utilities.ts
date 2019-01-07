@@ -6,6 +6,47 @@ import Constants from "./constants";
 import { TimeEntries } from "./models/time-entries";
 import { Entry } from "./models/entry";
 import { TimeEntryDateRange } from "./models/time-entry-date-range";
+import { ReportData } from "./models/report-data";
+import { ReportDay } from "./models/report-day";
+
+const buildTimeEntryReport = (entries: Entry[], dateRange: TimeEntryDateRange, totalHours: number) => {
+
+    return {};
+};
+
+const groupTimeEntries = (entries: Entry[]): ReportDay[] => {
+    let timeEntriesMap: { [date: string]: Entry[] } = {};
+    let reportDays: ReportDay[] = [];
+
+    entries.forEach((entry: Entry) => {
+        let date = entry.date.toString();
+        let entries: Entry[] = timeEntriesMap[date] || [];
+        entries.push(entry);
+        timeEntriesMap[date] = entries;
+    });
+    for (let date in timeEntriesMap) {
+        reportDays.push({
+            date: timeEntriesMap[date][0].date,
+            entries: timeEntriesMap[date]
+        });
+    }
+
+    return reportDays.sort(sortReportDays);
+};
+
+const sortReportDays = (first: ReportDay, second: ReportDay): number => {
+    const firstMoment: moment.Moment = moment(first.date);
+    const secondMoment: moment.Moment = moment(second.date);
+
+    if (firstMoment.isBefore(secondMoment)) {
+        return -1;
+    }
+    if (firstMoment.isAfter(secondMoment)) {
+        return 1;
+    }
+
+    return 0;
+};
 
 const fetchTimeEntryData = async (bundle: Bundle | any, z?: ZObject) => {
     const response = await fetch.default(`${Constants.STORE_API_BASE}/records`, {
@@ -85,11 +126,13 @@ const getTotalHours = (entries: Entry[]): number => {
 };
 
 const Utilities = {
+    BuildTimeEntryReport: buildTimeEntryReport,
     FetchTimeEntryData: fetchTimeEntryData,
     FilterTodaysEntries: filterTodaysEntries,
     FormatTimeEntries: formatTimeEntries,
     GetEntryDateRange: getEntryDateRange,
     GetTotalHours: getTotalHours,
+    GroupTimeEntries: groupTimeEntries
 };
 
 export default Utilities;
