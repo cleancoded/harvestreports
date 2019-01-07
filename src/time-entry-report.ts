@@ -10,8 +10,9 @@ const reportStyles = {
     tableStyles: `border-collapse: collapse; border: none; padding: ${padding}px`,
     cellStyles: `border: none; padding: ${padding}px;`,
     notesRowStyles: `background-color: #f2f2f2; border-bottom: 1px dashed;`,
-    dateRowStyles: `background-color: #f2f2f2;`
+    dateRowStyles: `background-color: #f2f2f2; font-weight: bold;`
 };
+const dateFormatString = 'MMM D, YYYY';
 
 /*
     Build header
@@ -32,8 +33,8 @@ const buildReport = (reportData: ReportData): string => {
 };
 
 const buildHeader = (dateRange: TimeEntryDateRange): string => {
-    const formattedEarliestDate: string = moment(dateRange.earliestDate).format('MMMM Do YYYY');
-    const formattedLatestDate: string = moment(dateRange.latestDate).format('MMMM Do YYYY');
+    const formattedEarliestDate: string = moment(dateRange.earliestDate).format(dateFormatString);
+    const formattedLatestDate: string = moment(dateRange.latestDate).format(dateFormatString);
 
     return `Timesheet: <b>${formattedEarliestDate} - ${formattedLatestDate}</b>\n`;
 };
@@ -69,7 +70,7 @@ const buildEntryDays = (reportDays: ReportDay[]): string => {
     let daysHtml = '';
 
     for (let reportDay of reportDays) {
-        const formattedDate = moment(reportDay.date).format('MMMM Do YYYY');
+        const formattedDate = moment(reportDay.date).format(dateFormatString);
         const entryRows = buildEntryRows(reportDay.entries);
         let dayHtml = `<tr>
             <td colspan="3" style="${reportStyles.dateRowStyles}" >${formattedDate}</td>

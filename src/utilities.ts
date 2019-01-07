@@ -90,13 +90,9 @@ const filterTodaysEntries = (timeEntries: TimeEntries, today: Date): Entry[] => 
     return filteredEntries;
 };
 
-const formatTimeEntries = (entries: Entry[], dateRange: TimeEntryDateRange, totalHours: number): string => {
-    return '';
-};
-
 const getEntryDateRange = (entries: Entry[]): TimeEntryDateRange => {
     let earliestDate: moment.Moment = moment();
-    let latestDate: moment.Moment = moment();
+    let latestDate: moment.Moment = moment('1900-01-01');
 
     entries.forEach((entry: Entry) => {
         const entryDate: moment.Moment = moment(entry.date);
@@ -116,12 +112,13 @@ const getEntryDateRange = (entries: Entry[]): TimeEntryDateRange => {
     };
 };
 
-const getTotalHours = (entries: Entry[]): number => {
+const getTotalHours = (entries: Entry[], z?: ZObject): number => {
     let totalHours: number = 0.0;
 
     entries.forEach((entry: Entry) => {
         if (entry.hours) {
-            totalHours += entry.hours;
+            let hours = parseFloat(entry.hours.toString());
+            totalHours += hours;
         }
     });
 
@@ -132,7 +129,6 @@ const Utilities = {
     BuildTimeEntryReport: buildTimeEntryReport,
     FetchTimeEntryData: fetchTimeEntryData,
     FilterTodaysEntries: filterTodaysEntries,
-    FormatTimeEntries: formatTimeEntries,
     GetEntryDateRange: getEntryDateRange,
     GetTotalHours: getTotalHours,
     GroupTimeEntries: groupTimeEntries

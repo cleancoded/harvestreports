@@ -18,7 +18,7 @@ const formatTimeEntries = async (z: ZObject, bundle: Bundle) => {
     const timeEntries: TimeEntries = await Utilities.FetchTimeEntryData(bundle, z);
     const filteredEntries: Entry[] = Utilities.FilterTodaysEntries(timeEntries, bundle.inputData.current_date);
     const reportDateRange: TimeEntryDateRange = Utilities.GetEntryDateRange(filteredEntries);
-    const totalHours: number = Utilities.GetTotalHours(filteredEntries);
+    const totalHours: number = Utilities.GetTotalHours(filteredEntries, z);
     const report: ReportData = Utilities.BuildTimeEntryReport(filteredEntries, reportDateRange, totalHours);
     const reportHtml: string = TimeEntryReport.BuildReport(report);
 
