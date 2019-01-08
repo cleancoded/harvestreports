@@ -1,8 +1,8 @@
 {
-  "name": "format-time-entries-for-html",
+  "name": "harvestreports",
   "version": "1.0.0",
   "description": "Format timesheet entries (from Harvest) with HTML",
-  "repository": "",
+  "repository": "cleancoded/harvestreports",
   "author": "Skye Griffin <skybox@trioptimum.com>",
   "license": "BSD-3-Clause",
   "main": "index.js",
