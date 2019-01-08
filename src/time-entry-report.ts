@@ -9,8 +9,8 @@ const padding = 8;
 const reportStyles = {
     tableStyles: `border-collapse: collapse; border: none; padding: ${padding}px`,
     cellStyles: `border: none; padding: ${padding}px;`,
-    notesRowStyles: `background-color: #f2f2f2; border-bottom: 1px dashed;`,
-    dateRowStyles: `background-color: #f2f2f2; font-weight: bold;`
+    notesRowStyles: `background-color: #f2f2f2; border-bottom: 1px dashed; padding: ${padding}px`,
+    dateRowStyles: `background-color: #f2f2f2; font-weight: bold; padding: ${padding}px`
 };
 const dateFormatString = 'MMM D, YYYY';
 
@@ -88,12 +88,12 @@ const buildEntryRows = (entries: Entry[]): string => {
 
     entries.forEach((entry: Entry) => {
         let rowHtml = `<tr>
-            <td>${entry.project}</td>
-            <td>${entry.task}</td>
-            <td style="text-align: center" >${entry.hours}</td>
+            <td style="${reportStyles.cellStyles}" >${entry.project}</td>
+            <td style="${reportStyles.cellStyles}" >${entry.task}</td>
+            <td style="text-align: center; ${reportStyles.cellStyles}" >${entry.hours}</td>
         </tr>
         <tr style="${reportStyles.notesRowStyles}" >
-            <td colspan="3">${entry.notes}</td>
+            <td colspan="3" style="${reportStyles.cellStyles}" >${entry.notes}</td>
         </tr>\n`;
 
         rowsHtml += rowHtml;
