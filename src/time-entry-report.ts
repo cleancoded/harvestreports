@@ -107,7 +107,7 @@ const buildTableFooter = (): string => {
 };
 
 const buildFooter = (totalHours: number): string => {
-    return `<br/>Total: <b>${totalHours} Hours</b>`;
+    return `<br/>Total: <b>${totalHours.toPrecision(2)} Hours</b>`;
 };
 
 const TimeEntryReport = {

@@ -14,7 +14,7 @@ import TimeEntryReport from "../time-entry-report";
     Calculate total hours
     Format entries with HTML
 */
-const formatTimeEntries = async (z: ZObject, bundle: Bundle) => {
+const formatTimeEntries = async (z: ZObject, bundle: Bundle | any) => {
     const timeEntries: TimeEntries = await Utilities.FetchTimeEntryData(bundle, z);
     const filteredEntries: Entry[] = Utilities.FilterTodaysEntries(timeEntries, bundle.inputData.current_date);
     const reportDateRange: TimeEntryDateRange = Utilities.GetEntryDateRange(filteredEntries);
@@ -26,8 +26,8 @@ const formatTimeEntries = async (z: ZObject, bundle: Bundle) => {
 };
 
 const FormattedEntry = {
-    key: 'formatted-html',
-    noun: 'FormattedHtml',
+    key: 'formatted_entry',
+    noun: 'Formatted Entry',
     display: {
         label: 'Format Time Entries',
         description: 'Embed time entries within HTML to be sent in an email body'

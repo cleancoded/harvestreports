@@ -59,10 +59,24 @@ const fetchTimeEntryData = async (bundle: Bundle | any, z?: ZObject) => {
         }
     });
 
-    let entryData: TimeEntries;
+    let entryData: TimeEntries = {
+        entries: []
+    };
 
     if (response.json) {
-        entryData = await response.json();
+        let responseData: TimeEntries = await response.json();
+
+        if (responseData.entries && entryData.entries) {
+            for (let entry of responseData.entries) {
+                entryData.entries.push({
+                    hours: Number(entry.hours),
+                    date: entry.date,
+                    project: entry.project,
+                    task: entry.task,
+                    notes: entry.notes
+                });
+            }
+        }
 
         return entryData;
     }
@@ -117,8 +131,8 @@ const getTotalHours = (entries: Entry[], z?: ZObject): number => {
 
     entries.forEach((entry: Entry) => {
         if (entry.hours) {
-            let hours = parseFloat(entry.hours.toString());
-            totalHours += hours;
+            totalHours = totalHours + entry.hours;
+            console.log('total hours: ', totalHours);
         }
     });
 
